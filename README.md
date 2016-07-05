@@ -1,4 +1,4 @@
-# SIS epidemic model algorithm based on the article "Simulation of Markovian epidemic models on large networks"
+# SIS epidemic model algorithm based on the article __Simulation of Markovian epidemic models on large networks__
 
 ## Synopsis
 
