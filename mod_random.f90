@@ -78,13 +78,14 @@ contains
         integer(i4b)          :: k,x,y,z,w,c1,c2,c3,c4
         real(r8b)             :: rdum
         
-        ! Generate iseed
+        ! Generate iseed using time and pid values
         integer :: s, pid
         
         parameter (ia=16807,im=2147483647,iq=127773,ir=2836)
         common /kisscom/x,y,z,w
         
-        ! Generate iseed
+        ! Generate iseed using time and pid values
+        ! Modified from <http://stackoverflow.com/questions/8920411/possible-sources-for-random-number-seeds>
         pid = getpid()
         call system_clock(s)
         iseed = abs( mod((s*181)*((pid-83)*359), 101248729) )
