@@ -1,7 +1,8 @@
 ## Use
 
-ifort mod* dynamics.f90 -o dynamics
-./dynamics <edges_file> <DIR_output>
+``ifort mod* dynamics.f90 -o dynamics``
+
+``./dynamics <edges_file> <DIR_output>``
 
 ## Synopsis
 
