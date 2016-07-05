@@ -5,7 +5,7 @@
 ! SIS epidemic model algorithm based on the article "Simulation of Markovian epidemic models on large networks"
 ! Copyright (C) 2016 Wesley Cota, Silvio C. Ferreira
 ! 
-! Please consider citing our article if this code is used.
+! Please cite the above cited paper as reference to our code.
 ! 
 ! This code is a free software: you can redistribute it and/or modify it under the terms 
 ! of the GNU Lesser General Public License as published by the Free Software Foundation, 
