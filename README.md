@@ -4,7 +4,7 @@
 
 What **is** it?
 
-[] to do
+- [ ] to do
 
 ## Dataset input
 
@@ -24,13 +24,13 @@ Examples of datasets and their specifications will be available soon.
 
 ``ifort mod* dynamics.f90 -o dynamics``
 
-[] to do
+- [ ] to do
 
 ## Use
 
 ``./dynamics <edges_file> <output_file>``
 
-[] to do
+- [ ] to do
 
 ## License
 
