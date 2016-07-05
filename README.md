@@ -6,6 +6,14 @@ What **is** it?
 
 - [ ] to do
 
+## To-do
+
+- [ ] Write average value of samples
+- [ ] Bash interface to read parameters
+- [ ] Makefile
+- [ ] Write informative text (reading network... running dynamics...)
+- [ ] Write licence, URL, and DOI.
+
 ## Dataset input
 
 All you need is a file containing the list of **unique** edges (__in__ and __out__, two collumns) between all nodes of the network. ID of each vertex must be larger or equal to `1`, and be sequential: `1, 2, 3,..., N`, where `N` is the total number of vertices of the network. Here, we assume only __undirected__ networks and edges weight equal to 1.
