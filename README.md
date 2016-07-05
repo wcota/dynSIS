@@ -1,3 +1,8 @@
+## Use
+
+ifort mod* dynamics.f90 -o dynamics
+./dynamics <edges_file> <DIR_output>
+
 ## Synopsis
 
 At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
