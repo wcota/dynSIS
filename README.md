@@ -1,4 +1,4 @@
-# Simulation of Markovian epidemic models on large networks: SIS algorithm
+# Simulation of Markovian epidemic models on networks: SIS-II algorithm
 
 ## Synopsis
 
@@ -16,9 +16,9 @@ What **is** it?
 
 ## Dataset input
 
-All you need is a file containing the list of **unique** edges (__in__ and __out__, two collumns) between all nodes of the network. ID of each vertex must be larger or equal to `1`, and be sequential: `1, 2, 3,..., N`, where `N` is the total number of vertices of the network. Here, we assume only __undirected__ networks and edges weight equal to 1.
+You need provide a file containing the list of edges (__in__ and __out__, two collumns). ID of the vertices must be enumerated sequentially as `1, 2, 3,..., N`, where `N` is the total number of vertices of the network. Here, we assume  __undirected__ and __unweighted__ networks without multiple neither self connections.
 
-As an example, consider a network of `N=5` vertices. `1` is connected to `2,3`, `2` to `1,4,5`, `3` to `1,4`, `4` to `2,3` and `5` to `2`. So, the file would be:
+Consider, for example, a network with `N=5` vertices represented by:
 
 ```
 1,2
@@ -33,6 +33,9 @@ Examples of datasets and their specifications will be available soon.
 ## Installation
 
 ```ifort mod* dynamics.f90 -o dynamics```
+or
+
+```gfortran mod* dynamics.f90 -o dynamics```
 
 - [ ] to do
 
