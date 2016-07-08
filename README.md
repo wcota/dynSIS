@@ -18,7 +18,7 @@ Consider, for example, a network with `N=5` vertices represented by:
 3,4
 ```
 
-Examples of datasets and their specifications will be available soon.
+Examples of datasets and their specifications are available at (http://goo.gl/Bm3VsR).
 
 ## Installation
 
@@ -31,11 +31,15 @@ For Windows, however, you must compile all mod*.f90 files and the program code d
 
 ## Use
 
-Just run:
+If you want to manually input the dynamical parameters, just type:
 
 ```./dynamics <edges_file> <output_file>```
 
-``<output_file>`` will be written with the average of the fraction of infected vertices versus time.
+where ``<output_file>`` will be written with the average of the fraction of infected vertices versus time.
+
+Alternatively, use (Linux):
+
+```bash run.sh <edges_file> <output_file> <number of samples> <infection rate lambda> <maximum time steps> <fraction of infected vertices (initial condition)>```
 
 ## License
 
