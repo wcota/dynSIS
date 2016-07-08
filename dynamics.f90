@@ -33,58 +33,110 @@ use mod_random
 use mod_read_tools
 implicit none
     
-    character*1024                :: f_output
+    ! File read/write arguments and parameter
+    character*1024                :: f_output, f_temp
     integer, parameter            :: und_output = 10
     
-    ! Network structure variables
-    integer                       :: net_kmax
     
     ! Dynamics samples variables
     integer                       :: dynp_i, dynp_sam
     real*8                        :: dynp_lb
-    real*8                        :: dynp_tmax
+    integer                       :: dynp_tmax
     real*8                        :: dynp_pINI ! fraction of network first infected (random)
     
-    ! Dynamics variables
-    real*8                        :: dyn_p, dyn_q, dyn_dt, dyn_t
+    ! SIS-II - Dynamics Variables
+    real*8                        :: dyn_p
+    real*8                        :: dyn_t, dyn_dt
     integer, allocatable          :: dyn_ocp(:), dyn_sig(:)
-    integer                       :: dyn_voc
-    integer                       :: dyn_sk ! edges from infected vertices
+    integer                       :: dyn_voc, dyn_sk ! # of infected vertex and # of infected edges
     
-    real*8                        :: dyn_dt_pos
+    ! SIS-II - Network structure variables
+    integer                       :: net_kmax
+    
+    ! Output variables and average measures
+    real*8, allocatable           :: avg_rho(:), avg_t(:)
+    integer, allocatable          :: avg_sam(:)
+    integer                       :: dyn_dt_pos, dyn_dt_pos_max
+    
+    call print_info('###############################################################################')
+    call print_info('#### Simulation of Markovian epidemic models on networks: SIS-II algorithm ####')
+    call print_info('##============ Copyright(C) 2016 Wesley Cota, Silvio C. Ferreira ============##')
+    call print_info('##======= This code is available at <https://github.com/wcota/dynSIS> =======##')
+    call print_info('##======= Please cite the above cited paper as reference to our code. =======##')
+    call print_info('##=== This code is under GNU General Public License. Please see README.md ===##')
+    call print_info('###############################################################################')
     
     ! initial value of input counter to read command arguments, used by mod_read_tools
     inp_pos = 1 
     
-    ! Files arguments
+    ! Files arguments read
     call read_arg(f_input)
     call read_arg(f_output)
     
     ! Read network to memory
     call readEdges()
     
-    ! To be used in the algorithm.
+    ! To be used in the SIS-II algorithm.
     net_kmax = maxval(net_k)
     
     ! Initate the random generator
+    call print_info('')
+    call print_progress('Generating random seed')
     call random_ini()
+    call print_done()
     
-    ! We are ready! All Network data is here, now we need the dynamics parameters.
+    ! We are ready! All Network data is here, now we need to read the dynamical parameters.
+    call print_info('')
+    call print_info('Now we need to read the dynamical parameters.')
     call read_dyn_parameters()
     
-    ! Open file and let's run the dynamics.
-    open(und_output,file=f_output)
-    
+    ! Let's run the dynamics. But first, we allocate the average matrices
+    allocate(avg_rho(dynp_tmax), avg_t(dynp_tmax), avg_sam(dynp_tmax))
+    avg_rho = 0d0
+    avg_t = 0d0
+    avg_sam = 0
+    dyn_dt_pos_max = 1
+    call print_info('')
+    call print_info('Running dynamics...')
     do dynp_i=1,dynp_sam
+        write(f_temp,*) dynp_i
+        call print_progress('Sample # '//trim(adjustl(f_temp)))
+    
+        ! Run dynamics
         call read_dyn_run()
-        write(und_output,*) ""
+        
+        ! Open file and write info
+        open(und_output,file=f_output)
+        write(und_output,'(a)') "#@ Network file: "//trim(adjustl(f_input))
+        write(und_output,'(a,i7)') "#@ Number of nodes: ", net_N
+        write(und_output,'(a,i7)') "#@ Number of edges: ", net_skk
+        write(und_output,'(a,i7)') "#! Samples: ", dynp_i
+        write(und_output,'(a,f11.5)') "#! Infection rate lambda: ", dynp_lb
+        write(und_output,'(a,i7)') "#! Maximum time steps: ", dynp_tmax
+        write(und_output,'(a,f11.5)') "#! Fraction of infected vertices (initial condition): ", dynp_pINI
+        do dyn_dt_pos = 1, dyn_dt_pos_max
+            write(und_output,*) 1d0*avg_t(dyn_dt_pos)/avg_sam(dyn_dt_pos) , 1d0*avg_rho(dyn_dt_pos)/dynp_i
+        enddo
+        ! Close file
+        close(und_output)
+        call print_done()
     enddo
     
-    close(und_output)
-    
-    stop 'ALERT: Todo average and write more information.'
+    call print_info('')
+    call print_info('Everything ok!')
+    call print_info('Input file: '//trim(adjustl(f_input)))
+    call print_info('Output file: '//trim(adjustl(f_output)))
     
 contains
+
+    subroutine read_dyn_parameters()
+        call read_i(dynp_sam,"How much dynamics samples?")
+        call read_f(dynp_lb,"Value of infection rate lambda (mu is defined as equal to 1)")
+        call read_i(dynp_tmax,"Maximum time steps (it stops if the absorbing state is reached)")
+        call read_f(dynp_pINI,"Fraction of infected vertices on the network as initial condition (is random to each sample)")
+        
+        allocate(dyn_ocp(net_N),dyn_sig(net_N))
+    end subroutine
 
     subroutine read_dyn_run()
     
@@ -95,7 +147,7 @@ contains
         call random_initial_condition()
         
         dyn_t = 0d0
-        dyn_dt_pos = 1d0
+        dyn_dt_pos = 1
         
         dyn_time_loop : do while (dyn_t <= dynp_tmax)
             
@@ -135,10 +187,13 @@ contains
             
             dyn_t = dyn_t + dyn_dt
             
-            if (dyn_t > dyn_dt_pos) then
-                write(und_output,*) dyn_t, 1d0*dyn_voc/net_N
-                dyn_dt_pos = dyn_dt_pos + 1d0
-            endif
+            do while (dyn_t >= dyn_dt_pos)
+                dyn_dt_pos_max = max(dyn_dt_pos,dyn_dt_pos_max)
+                avg_rho(dyn_dt_pos) = avg_rho(dyn_dt_pos) + 1d0*dyn_voc/net_N
+                avg_t(dyn_dt_pos) = avg_t(dyn_dt_pos) + dyn_t
+                avg_sam(dyn_dt_pos) = avg_sam(dyn_dt_pos) + 1
+                dyn_dt_pos = dyn_dt_pos + 1
+            enddo
             
         enddo dyn_time_loop
         
@@ -163,15 +218,6 @@ contains
                 endif
             enddo vti_ver
         enddo
-    end subroutine
-
-    subroutine read_dyn_parameters()
-        call read_i(dynp_sam,"How much dynamics samples?")
-        call read_f(dynp_lb,"Value of infection rate lambda (mu is defined as equal to 1)")
-        call read_f(dynp_tmax,"Maximum time steps (it stops if the absorbing state is reached)")
-        call read_f(dynp_pINI,"Fraction of infected vertices on the network as initial condition (is random to each sample)")
-        
-        allocate(dyn_ocp(net_N),dyn_sig(net_N))
     end subroutine
     
 end program

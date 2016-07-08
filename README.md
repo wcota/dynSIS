@@ -2,17 +2,7 @@
 
 ## Synopsis
 
-What **is** it?
-
-- [ ] to do
-
-## To-do
-
-- [ ] Write average value of samples
-- [ ] Bash interface to read parameters
-- [ ] Makefile
-- [ ] Write informative text (reading network... running dynamics...)
-- [ ] Write licence, URL, and DOI.
+This code is a implementation of the SIS-II algorithm, as detailed in our paper (to be cited). It receives as input a network file, containing a list of edges and read, via terminal, the dynamical parameters.
 
 ## Dataset input
 
@@ -32,18 +22,20 @@ Examples of datasets and their specifications will be available soon.
 
 ## Installation
 
-```ifort mod* dynamics.f90 -o dynamics```
-or
+In Linux and OSX, it is simple: just type ``make`` in the terminal in the *.f90 directory. If you need debugging, use ``make c=1``.
 
-```gfortran mod* dynamics.f90 -o dynamics```
+For Windows, however, you must compile all mod*.f90 files and the program code dynamics.f90. An example is:
 
-- [ ] to do
+```gfortran mod_read_tools.f90 mod_random.f90 mod_netdata.f90 dynamics.f90 -o dynamics```
+
 
 ## Use
 
+Just run:
+
 ```./dynamics <edges_file> <output_file>```
 
-- [ ] to do
+``<output_file>`` will be written with the average of the fraction of infected vertices versus time.
 
 ## License
 

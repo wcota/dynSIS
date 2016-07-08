@@ -28,6 +28,7 @@
 ! This code is available at <https://github.com/wcota/dynSIS>
 
 module mod_netdata
+use mod_read_tools
 implicit none
 
     ! file input names and signals
@@ -54,7 +55,6 @@ contains
         ! auxiliar integers
         integer                     :: aux_i1, aux_i2
         integer                     :: iaux, itmp
-        integer                     :: i, j
         integer                     :: ver, ver1, ver2
             
         ! input file is opened
@@ -63,7 +63,7 @@ contains
         ! We set net_N to be the largest value read
         net_N = 0
     
-        ! calculating number of lines to read and allocate matrices...
+        call print_progress('Calculating number of lines to read and allocating matrices')
         f_input_nl = 0
         f_input_loop : do
             read(1,*,IOSTAT=f_sig) aux_i1, aux_i2
@@ -91,8 +91,10 @@ contains
         pos_con = 0
         tmp_con = 0 ! list of connections read
         net_k = 0 ! degree is zero at the beginning
+        call print_done()
     
         ! Let's read the file again, this time saving the connections, since we already know the total number of connections.
+        call print_progress('Reading the file again and collecting data')
         input_con_loop : do
             read(1,*,IOSTAT=f_sig) aux_i1, aux_i2
             if (f_sig < 0) exit input_con_loop ! if end of file, exit.
@@ -112,8 +114,10 @@ contains
         ! Is REALLY everything ok? Let's check!
         if (count(tmp_con == 0) > 0) call print_error('Please, verify your data. Something is not right! [count(tmp_con == 0) > 0]')
         if (sum(net_k) .ne. net_skk) call print_error('Please, CHECK! Sum of degrees IS NOT equal the number of connections found & 
-in the file')
-    
+& in the file')
+        call print_done()
+        
+        call print_progress('Builing adjacency list')
         ! Everything OK! 
         ! Now we will build the REAL list of adjacency.
         call make_ini() ! This will use the degrees array and build the net_ini matrix.
@@ -133,9 +137,9 @@ in the file')
             
             ! Just to check...
             if (net_con(aux_ini(ver1)) .ne. 0) call print_error('Somethings is wrong, con list overflow. Verify your data! &
-[net_con(aux_ini(ver1)) .ne. 0]')
+& [net_con(aux_ini(ver1)) .ne. 0]')
             if (net_con(aux_ini(ver2)) .ne. 0) call print_error('Somethings is wrong, con list overflow. Verify your data! &
-[net_con(aux_ini(ver2)) .ne. 0]')
+& [net_con(aux_ini(ver2)) .ne. 0]')
             
             ! Ok...
             net_con(aux_ini(ver1)) = ver2
@@ -152,6 +156,7 @@ in the file')
         deallocate(tmp_con)
         
         ! Now, everything is fine and we have the network data ready to be used! ;)
+        call print_done()
     
     contains
 
@@ -170,26 +175,5 @@ in the file')
         end subroutine 
     
     end subroutine readEdges
-
-    
-    ! Common and useful subroutines
-    subroutine deal(arr)
-        integer,allocatable :: arr(:)
-        
-        if (allocated(arr)) deallocate(arr)
-    end subroutine
-
-    subroutine print_warning(c1)
-        character(*) :: c1
-        
-        write(0,'(a,a)') "##! Alert !## ", c1
-    end subroutine
-
-    subroutine print_error(c1)
-        character(*) :: c1
-        
-        write(0,'(a,a)') "##!!! ERROR !!!## ", c1
-        stop ""
-    end subroutine
     
 end module

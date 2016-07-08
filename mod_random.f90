@@ -41,7 +41,7 @@ module mod_random
     
 contains
 
-    function random_d() ! eh o KISS na verdade
+    function random_d() ! KISS
         implicit none
 
         integer,parameter      :: r8b= SELECTED_REAL_KIND(P=14,R=99)   ! 8-byte reals
@@ -75,7 +75,7 @@ contains
         integer,parameter     :: i4b= SELECTED_INT_KIND(8)            ! 4-byte integers 
 
         integer(i4b)          :: idum,ia,im,iq,ir
-        integer(i4b)          :: k,x,y,z,w,c1,c2,c3,c4
+        integer(i4b)          :: k,x,y,z,w,c1
         real(r8b)             :: rdum
         
         ! Generate iseed using time and pid values
