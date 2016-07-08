@@ -115,7 +115,8 @@ implicit none
         write(und_output,'(a,i7)') "#! Maximum time steps: ", dynp_tmax
         write(und_output,'(a,f11.5)') "#! Fraction of infected vertices (initial condition): ", dynp_pINI
         do dyn_dt_pos = 1, dyn_dt_pos_max
-            write(und_output,*) 1d0*avg_t(dyn_dt_pos)/avg_sam(dyn_dt_pos) , 1d0*avg_rho(dyn_dt_pos)/dynp_i ! If you use /avg_sam(dyn_dt_pos), you have QS analysis :)
+            write(und_output,*) 1d0*avg_t(dyn_dt_pos)/avg_sam(dyn_dt_pos) , 1d0*avg_rho(dyn_dt_pos)/dynp_i 
+            ! If you use /avg_sam(dyn_dt_pos) to write avg_rho, you have QS analysis :)
         enddo
         ! Close file
         close(und_output)
