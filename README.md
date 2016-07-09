@@ -43,7 +43,7 @@ Alternatively, use (Linux):
 
 _Example:_
 
-```bash run.sh edges/s01.edges.dat s01.lb0.002_100-samples 100 0.002 1000000 0.5```
+```bash run.sh edges/s01.edges.dat "s01.lb0.002_100-samples.dat" 100 0.002 1000000 0.5```
 
 ## License
 
