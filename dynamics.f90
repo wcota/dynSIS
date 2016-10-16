@@ -103,7 +103,7 @@ implicit none
         call print_progress('Sample # '//trim(adjustl(f_temp)))
     
         ! Run dynamics
-        call read_dyn_run()
+        call dyn_run()
         
         ! Open file and write info
         open(und_output,file=f_output)
@@ -139,7 +139,7 @@ contains
         allocate(dyn_ocp(net_N),dyn_sig(net_N))
     end subroutine
 
-    subroutine read_dyn_run()
+    subroutine dyn_run()
     
         integer :: pos_ocp
         integer :: ver, pos_nei
