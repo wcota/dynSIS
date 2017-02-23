@@ -1,8 +1,18 @@
-# Simulation of Markovian epidemic models on networks: SIS-II algorithm
+# Optimized Gillespie algorithms for the efficient simulation of Markovian epidemic processes on large and heterogeneous networks: SIS-OGA
+
+### Fortran implementation
+
+## Versions
+
+[Fortran implementation - for performance](https://github.com/wcota/dynSIS)
+
+[Python implementation - learn and use](https://github.com/wcota/dynSIS-py)
+
+[NetworkX Python implementation - range of options](https://github.com/wcota/dynSIS-networkx)
 
 ## Synopsis
 
-This code is a implementation of the SIS-II algorithm, as detailed in our paper (to be cited). It receives as input a network file, containing a list of edges and read, via terminal, the dynamical parameters.
+This code is a implementation of the SIS-OGA (Optimized Gillespie Algorithm), as detailed in our paper (to be cited). It receives as input a network file, containing a list of edges and read, via terminal, the dynamical parameters.
 
 ## Dataset input
 
