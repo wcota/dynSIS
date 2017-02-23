@@ -2,8 +2,10 @@
 ! ## - module: random number generator. This is just a module to be used in another program.
 ! ## See README.md for more information and use
 !-----------------------------------------------------------------------------
-! SIS epidemic model algorithm based on the article "Simulation of Markovian epidemic models on large networks"
-! Copyright (C) 2016 Wesley Cota, Silvio C. Ferreira
+! SIS epidemic model algorithm based on the article 
+!           "Optimized Gillespie algorithms for the efficient simulation of 
+!            Markovian epidemic processes on large and heterogeneous networks"
+! Copyright (C) 2017 Wesley Cota, Silvio C. Ferreira
 ! 
 ! Please cite the above cited paper as reference to our code.
 ! 
@@ -22,12 +24,13 @@
 !-----------------------------------------------------------------------------
 ! Author    : Wesley Cota
 ! Email     : wesley.cota@ufv.br
-! Date      : July 2016
-! Based on http://web.mst.edu/~vojtat/class_5403/kiss05/rkiss05.f90, by Thomas Vojta, vojta@mst.edu.
-! Modified version!
+! Date      : 23 Feb 2017
+! Version   : 0.1
 !-----------------------------------------------------------------------------
 ! See README.md for more details
 ! This code is available at <https://github.com/wcota/dynSIS>
+! For pure Python, see <https://github.com/wcota/dynSIS-py>
+! For NetworkX library, see <https://github.com/wcota/dynSIS-networkx> (NetworkX implementation)
 
 ! Solution to ifort and gfortran
 !DEC$ IF(.FALSE.)

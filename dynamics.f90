@@ -1,9 +1,11 @@
 ! ## File: dynamics.f90
-! ## - main program: running the SIS dynamics, based on SIS II algorithm.
+! ## - main program: running the SIS dynamics, based on OGA (Optimized Gillespie Algorithm).
 ! ## See README.md for more information and use
 !-----------------------------------------------------------------------------
-! SIS epidemic model algorithm based on the article "Simulation of Markovian epidemic models on large networks"
-! Copyright (C) 2016 Wesley Cota, Silvio C. Ferreira
+! SIS epidemic model algorithm based on the article 
+!           "Optimized Gillespie algorithms for the efficient simulation of 
+!            Markovian epidemic processes on large and heterogeneous networks"
+! Copyright (C) 2017 Wesley Cota, Silvio C. Ferreira
 ! 
 ! Please cite the above cited paper as reference to our code.
 ! 
@@ -22,10 +24,13 @@
 !-----------------------------------------------------------------------------
 ! Author    : Wesley Cota
 ! Email     : wesley.cota@ufv.br
-! Date      : July 2016
+! Date      : 23 Feb 2017
+! Version   : 0.1
 !-----------------------------------------------------------------------------
 ! See README.md for more details
 ! This code is available at <https://github.com/wcota/dynSIS>
+! For pure Python, see <https://github.com/wcota/dynSIS-py>
+! For NetworkX library, see <https://github.com/wcota/dynSIS-networkx> (NetworkX implementation)
 
 program dynSIS
 use mod_netdata
@@ -58,13 +63,14 @@ implicit none
     integer, allocatable          :: avg_sam(:)
     integer                       :: dyn_dt_pos, dyn_dt_pos_max
     
-    call print_info('###############################################################################')
-    call print_info('#### Simulation of Markovian epidemic models on networks: SIS-II algorithm ####')
-    call print_info('##============ Copyright(C) 2016 Wesley Cota, Silvio C. Ferreira ============##')
-    call print_info('##======= This code is available at <https://github.com/wcota/dynSIS> =======##')
-    call print_info('##======= Please cite the above cited paper as reference to our code. =======##')
-    call print_info('##=== This code is under GNU General Public License. Please see README.md ===##')
-    call print_info('###############################################################################')
+    call print_info('################################################################################')
+    call print_info('### Optimized Gillespie algorithms for the efficient simulation of Markovian ###')
+    call print_info('####### epidemic processes on large and heterogeneous networks: SIS-OGA. #######')
+    call print_info('##============ Copyright (C) 2017 Wesley Cota, Silvio C. Ferreira ============##')
+    call print_info('##======= This code is available at <https://github.com/wcota/dynSIS>. =======##')
+    call print_info('##======== Please cite the above cited paper as reference to our code ========##')
+    call print_info('##=== This code is under GNU General Public License. Please see README.md. ===##')
+    call print_info('################################################################################')
     
     ! initial value of input counter to read command arguments, used by mod_read_tools
     inp_pos = 1 
