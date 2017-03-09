@@ -4,7 +4,7 @@
 
 ## Versions
 
-[(this) Fortran implementation - for performance](https://github.com/wcota/dynSIS)
+(this) [Fortran implementation - for performance](https://github.com/wcota/dynSIS)
 
 [Python implementation - learn and use](https://github.com/wcota/dynSIS-py)
 
