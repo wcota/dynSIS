@@ -49,13 +49,13 @@ implicit none
     integer                       :: dynp_tmax
     real*8                        :: dynp_pINI ! fraction of network first infected (random)
     
-    ! SIS-II - Dynamics Variables
+    ! SIS-OGA - Dynamics Variables
     real*8                        :: dyn_p
     real*8                        :: dyn_t, dyn_dt
     integer, allocatable          :: dyn_ocp(:), dyn_sig(:)
     integer                       :: dyn_voc, dyn_sk ! # of infected vertex and # of infected edges
     
-    ! SIS-II - Network structure variables
+    ! SIS-OGA - Network structure variables
     integer                       :: net_kmax
     
     ! Output variables and average measures
@@ -82,7 +82,7 @@ implicit none
     ! Read network to memory
     call readEdges()
     
-    ! To be used in the SIS-II algorithm.
+    ! To be used in the SIS-OGA algorithm.
     net_kmax = maxval(net_k)
     
     ! Initate the random generator
@@ -91,7 +91,7 @@ implicit none
     call random_ini()
     call print_done()
     
-    ! We are ready! All Network data is here, now we need to read the dynamical parameters.
+    ! We are ready! All network data is here, now we need to read the dynamical parameters.
     call print_info('')
     call print_info('Now we need to read the dynamical parameters.')
     call read_dyn_parameters()
@@ -104,6 +104,8 @@ implicit none
     dyn_dt_pos_max = 1
     call print_info('')
     call print_info('Running dynamics...')
+    
+    ! Loop over all the samples
     do dynp_i=1,dynp_sam
         write(f_temp,*) dynp_i
         call print_progress('Sample # '//trim(adjustl(f_temp)))
@@ -138,12 +140,35 @@ contains
 
     subroutine read_dyn_parameters()
         call read_i(dynp_sam,"How much dynamics samples?")
-        call read_f(dynp_lb,"Value of infection rate lambda (mu is defined as equal to 1)")
-        call read_i(dynp_tmax,"Maximum time steps (it stops if the absorbing state is reached)")
-        call read_f(dynp_pINI,"Fraction of infected vertices on the network as initial condition (is random to each sample)")
+        call read_f(dynp_lb,"Value of infection rate lambda (mu is defined as equal to 1):")
+        call read_i(dynp_tmax,"Maximum time steps (it stops if the absorbing state is reached):")
+        call read_f(dynp_pINI,"Fraction of infected vertices on the network as initial condition (is random for each sample):")
         
+        ! Allocate the SIS-OGA lists
         allocate(dyn_ocp(net_N),dyn_sig(net_N))
     end subroutine
+    
+    subroutine random_initial_condition()
+        integer :: ver, vti
+        
+        dyn_sig = 0 ! sigma
+        dyn_ocp = 0 ! list \mathcal{V}^{(I)}
+        dyn_voc = 0 ! N_I
+        dyn_sk = 0 ! N_k
+        
+        do vti = 1, int(net_N*dynp_pINI)
+            vti_ver : do
+                ver = random_int(1,net_N)
+                if (dyn_sig(ver) == 0) then
+                    dyn_voc = dyn_voc + 1
+                    dyn_ocp(dyn_voc) = ver
+                    dyn_sig(ver) = 1
+                    dyn_sk = dyn_sk + net_k(ver)
+                    exit vti_ver
+                endif
+            enddo vti_ver
+        enddo
+    end subroutine    
 
     subroutine dyn_run()
     
@@ -158,9 +183,11 @@ contains
         
         dyn_time_loop : do while (dyn_t <= dynp_tmax)
             
+            ! Probability m to heal
             dyn_p = 1d0*dyn_voc/ (dyn_voc + 1d0*dynp_lb * dyn_sk)
             rnd = random_d()
             
+            ! Try to heal
             if (rnd < dyn_p) then
                 pos_ocp = random_int(1,dyn_voc)
                 ver = dyn_ocp(pos_ocp)
@@ -170,16 +197,21 @@ contains
                 dyn_sk = dyn_sk - net_k(ver)
                 dyn_ocp(pos_ocp) = dyn_ocp(dyn_voc) ! change positions
                 dyn_voc = dyn_voc - 1
+                
+            ! If not, try to infect
             else
-                select_neig : do
+                ! Select the infected vertex i with prob. proportional to k_i
+                select_infec : do
                     pos_ocp = random_int(1,dyn_voc)
                     ver = dyn_ocp(pos_ocp)
-                    if (random_d() < 1d0*net_k(ver)/(1d0*net_kmax)) exit select_neig
-                enddo select_neig
+                    if (random_d() < 1d0*net_k(ver)/(1d0*net_kmax)) exit select_infec
+                enddo select_infec
                 
+                ! select one of the neighbors
                 pos_nei = random_int(net_ini(ver) , net_ini(ver) + net_k(ver) - 1)
                 ver = net_con(pos_nei)
                 
+                ! if not a phantom process, infect
                 if (dyn_sig(ver) == 0) then
                     dyn_sig(ver) = 1
                     dyn_sk = dyn_sk + net_k(ver)
@@ -188,11 +220,13 @@ contains
                 endif
             endif
             
-            if (dyn_voc == 0) exit dyn_time_loop
-            
+            ! To-do: exponential time distribution
             dyn_dt = 1d0/(dyn_voc + 1d0*dynp_lb * dyn_sk)
             
             dyn_t = dyn_t + dyn_dt
+            
+            ! if a absorbing state is reached, exit
+            if (dyn_voc == 0) exit dyn_time_loop
             
             do while (dyn_t >= dyn_dt_pos)
                 dyn_dt_pos_max = max(dyn_dt_pos,dyn_dt_pos_max)
@@ -204,27 +238,6 @@ contains
             
         enddo dyn_time_loop
         
-    end subroutine
-    
-    subroutine random_initial_condition()
-        integer :: ver, vti
-        
-        dyn_sig = 0
-        dyn_ocp = 0
-        dyn_voc = 0
-        dyn_sk = 0
-        do vti = 1, int(net_N*dynp_pINI)
-            vti_ver : do
-                ver = random_int(1,net_N)
-                if (dyn_sig(ver) == 0) then
-                    dyn_voc = dyn_voc + 1
-                    dyn_ocp(dyn_voc) = ver
-                    dyn_sig(ver) = 1
-                    dyn_sk = dyn_sk + net_k(ver)
-                    exit vti_ver
-                endif
-            enddo vti_ver
-        enddo
     end subroutine
     
 end program
