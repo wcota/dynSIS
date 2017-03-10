@@ -24,8 +24,8 @@
 !-----------------------------------------------------------------------------
 ! Author    : Wesley Cota
 ! Email     : wesley.cota@ufv.br
-! Date      : 23 Feb 2017
-! Version   : 0.1
+! Date      : 10 Mar 2017
+! Version   : 0.2
 !-----------------------------------------------------------------------------
 ! See README.md for more details
 ! This code is available at <https://github.com/wcota/dynSIS>
