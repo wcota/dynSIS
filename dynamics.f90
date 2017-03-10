@@ -222,7 +222,7 @@ contains
         avg_t = 0d0
         avg_sam = 0
         avg_samSurv = 0
-        dyn_dt_pos_max = 1
+        dyn_dt_pos_max = 0
         call print_info('')
         call print_info('Running dynamics...')
     
