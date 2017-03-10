@@ -72,7 +72,8 @@ contains
         call read_i(dynp_sam,"How much dynamics samples? ")
         call read_f(dynp_lb,"Value of infection rate lambda (mu is defined as equal to 1): ")
         call read_i(dynp_tmax,"Maximum time steps (it stops if the absorbing state is reached): ")
-        call read_f(dynp_pINI,"Fraction of infected vertices on the network as initial condition (is random for each sample): ")
+        call read_f(dynp_pINI,"Fraction of infected vertices on the network as initial condition (is random for &
+ & each sample): ")
         
         ! Allocate the SIS-OGA lists V^I
         allocate(dyn_VI(net_N),dyn_sig(net_N))
@@ -245,7 +246,8 @@ contains
         
             do dyn_dt_pos = 1, dyn_dt_pos_max
                 write(und_output,*) 1d0*avg_t(dyn_dt_pos)/avg_sam(dyn_dt_pos) , 1d0*avg_rho(dyn_dt_pos)/dynp_i
-                ! If you use /avg_samSurv(dyn_dt_pos) instead of /dynp_i to write avg_rho (2nd column), you have QS analysis :)
+                ! If you use /avg_samSurv(dyn_dt_pos) instead of /dynp_i to write avg_rho (2nd column), you have 
+                ! QS analysis :)
             enddo
         
             ! Close output file
