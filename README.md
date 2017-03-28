@@ -14,7 +14,7 @@ This code is part of the article "[Optimized Gillespie algorithms for the simula
 
 ## Synopsis
 
-This code is a implementation of the SIS-OGA (Optimized Gillespie Algorithm), as detailed in our paper [paper](http://wesleycota.com/). It receives as input a network file, containing a list of edges and read, via terminal, the dynamical parameters.
+This code is a implementation of the SIS-OGA (Optimized Gillespie Algorithm), as detailed in our [paper](http://wesleycota.com/). It receives as input a network file, containing a list of edges and read, via terminal, the dynamical parameters.
 
 ## Dataset input
 
