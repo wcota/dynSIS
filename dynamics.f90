@@ -3,11 +3,12 @@
 ! ## See README.md for more information and use
 !-----------------------------------------------------------------------------
 ! SIS epidemic model algorithm based on the article 
-!           "Optimized Gillespie algorithms for the efficient simulation of 
+!           "Optimized Gillespie algorithms for the simulation of 
 !            Markovian epidemic processes on large and heterogeneous networks"
 ! Copyright (C) 2017 Wesley Cota, Silvio C. Ferreira
 ! 
-! Please cite the above cited paper as reference to our code.
+! Please cite the above cited paper (available at <http://wesleycota.com/ ) as reference
+! to our code.
 ! 
 !    This program is free software: you can redistribute it and/or modify
 !    it under the terms of the GNU General Public License as published by
@@ -24,8 +25,8 @@
 !-----------------------------------------------------------------------------
 ! Author    : Wesley Cota
 ! Email     : wesley.cota@ufv.br
-! Date      : 10 Mar 2017
-! Version   : 0.2
+! Date      : 27 Mar 2017
+! Version   : 1.0
 !-----------------------------------------------------------------------------
 ! See README.md for more details
 ! This code is available at <https://github.com/wcota/dynSIS>
@@ -83,7 +84,7 @@ contains
         integer :: ver, vti
         
         dyn_sig = 0 ! sigma
-        dyn_VI = 0 ! list V^I
+        !dyn_VI = 0 ! list V^I (not needed)
         dyn_NI = 0 ! N_I
         dyn_Nk = 0  ! N_k
         
@@ -184,10 +185,11 @@ contains
 
     subroutine run_prog()
         call print_info('################################################################################')
-        call print_info('### Optimized Gillespie algorithms for the efficient simulation of Markovian ###')
-        call print_info('####### epidemic processes on large and heterogeneous networks: SIS-OGA. #######')
+        call print_info('### Optimized Gillespie algorithms for the simulation of Markovian epidemic  ###')
+        call print_info('############ processes on large and heterogeneous networks: SIS-OGA ############')
         call print_info('##============ Copyright (C) 2017 Wesley Cota, Silvio C. Ferreira ============##')
-        call print_info('##======= This code is available at <https://github.com/wcota/dynSIS>. =======##')
+        call print_info('##================ Paper available at <http://wesleycota.com/ ================##')
+        call print_info('##======= The codes are available at <https://github.com/wcota/dynSIS> =======##')
         call print_info('##======== Please cite the above cited paper as reference to our code ========##')
         call print_info('##=== This code is under GNU General Public License. Please see README.md. ===##')
         call print_info('################################################################################')
@@ -236,6 +238,8 @@ contains
         
             ! Open file and write info
             open(und_output,file=f_output)
+            write(und_output,'(a)')         "## ***** Algorithm used: Optimized Gillespie Algorithm for SIS &
+                                            & (SIS-OGA, Fortran) *****"
             write(und_output,'(a)')         "#@ Network file: "//trim(adjustl(f_input))
             write(und_output,'(a,i7)')      "#@ Number of nodes: ", net_N
             write(und_output,'(a,i7)')      "#@ Number of edges: ", net_skk
@@ -259,6 +263,9 @@ contains
         call print_info('Everything ok!')
         call print_info('Input file: '//trim(adjustl(f_input)))
         call print_info('Output file: '//trim(adjustl(f_output)))
+        call print_info('')
+        call print_info('*****Algorithm used: Optimized Gillespie Algorithm for SIS (SIS-OGA, Fortran)*****')
+        call print_info('Codes available at <https://github.com/wcota/dynSIS>.')
         
     end subroutine
 
