@@ -12,6 +12,8 @@ This code is part of the article "[Optimized Gillespie algorithms for the simula
 
 [NetworkX Python implementation - range of options](https://github.com/wcota/dynSIS-networkx)
 
+[GA Fortran implementation - Statistically exact, but NOT optimized](https://github.com/wcota/dynSIS-GA)
+
 ## Synopsis
 
 This code is a implementation of the SIS-OGA (Optimized Gillespie Algorithm), as detailed in our [paper](http://wesleycota.com/). It receives as input a network file, containing a list of edges and read, via terminal, the dynamical parameters.
