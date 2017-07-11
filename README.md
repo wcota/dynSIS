@@ -1,6 +1,6 @@
 # Optimized Gillespie algorithms for the simulation of Markovian epidemic processes on large and heterogeneous networks: SIS-OGA
 
-This code is part of the article "[Optimized Gillespie algorithms for the simulation of Markovian epidemic processes on large and heterogeneous networks](https://arxiv.org/abs/1704.01557)"
+This code is part of the article "[Optimized Gillespie algorithms for the simulation of Markovian epidemic processes on large and heterogeneous networks](https://doi.org/10.1016/j.cpc.2017.06.007)" [[ArXiv](https://arxiv.org/abs/1704.01557)].
 
 [![license](https://img.shields.io/badge/licence-GPLv3-brightgreen.svg)](http://choosealicense.com/licenses/gpl-3.0/)
 [![language](https://img.shields.io/badge/built%20with-Fortran-blue.svg)](https://gcc.gnu.org/fortran/)
@@ -23,15 +23,15 @@ This code is part of the article "[Optimized Gillespie algorithms for the simula
 @article{cotaOGA2017,
    author = {{Cota}, W. and {Ferreira}, S.~C.},
     title = "{Optimized Gillespie algorithms for the simulation of Markovian epidemic processes on large and heterogeneous networks}",
-  journal = {arXiv preprint arXiv:1704.01557},
+  journal = {Computer Physics Communications},
      year = 2017,
-      url = {https://arxiv.org/abs/1704.01557}
+      url = {https://doi.org/10.1016/j.cpc.2017.06.007}
 }
 ```
 
 ## Synopsis
 
-This code is a implementation of the SIS-OGA (Optimized Gillespie Algorithm), as detailed in our [paper](https://arxiv.org/abs/1704.01557). It receives as input a network file, containing a list of edges and read, via terminal, the dynamical parameters.
+This code is a implementation of the SIS-OGA (Optimized Gillespie Algorithm), as detailed in our [paper](https://doi.org/10.1016/j.cpc.2017.06.007). It receives as input a network file, containing a list of edges and read, via terminal, the dynamical parameters.
 
 ## Dataset input
 
