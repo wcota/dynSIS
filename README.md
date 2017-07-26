@@ -19,13 +19,27 @@ This code is part of the article "[Optimized Gillespie algorithms for the simula
 
 ## Citation
 
+Full bibliographic details: Computer Physics Communications 219C (2017) pp. 303-312
+
+DOI information: 10.1016/j.cpc.2017.06.007
+
 ```
-@article{cotaOGA2017,
-   author = {{Cota}, W. and {Ferreira}, S.~C.},
-    title = "{Optimized Gillespie algorithms for the simulation of Markovian epidemic processes on large and heterogeneous networks}",
-  journal = {Computer Physics Communications},
-     year = 2017,
-      url = {https://doi.org/10.1016/j.cpc.2017.06.007}
+@article{COTA2017303,
+title = "Optimized Gillespie algorithms for the simulation of Markovian epidemic processes on large and heterogeneous networks",
+journal = "Computer Physics Communications",
+volume = "219",
+number = "",
+pages = "303 - 312",
+year = "2017",
+note = "",
+issn = "0010-4655",
+doi = "http://dx.doi.org/10.1016/j.cpc.2017.06.007",
+url = "http://www.sciencedirect.com/science/article/pii/S0010465517301893",
+author = "Wesley Cota and Silvio C. Ferreira",
+keywords = "Complex networks",
+keywords = "Markovian epidemic processes",
+keywords = "Gillespie algorithm",
+abstract = "Numerical simulation of continuous-time Markovian processes is an essential and widely applied tool in the investigation of epidemic spreading on complex networks. Due to the high heterogeneity of the connectivity structure through which epidemic is transmitted, efficient and accurate implementations of generic epidemic processes are not trivial and deviations from statistically exact prescriptions can lead to uncontrolled biases. Based on the Gillespie algorithm (GA), in which only steps that change the state are considered, we develop numerical recipes and describe their computer implementations for statistically exact and computationally efficient simulations of generic Markovian epidemic processes aiming at highly heterogeneous and large networks. The central point of the recipes investigated here is to include phantom processes, that do not change the states but do count for time increments. We compare the efficiencies for the susceptible–infected–susceptible, contact process and susceptible–infected–recovered models, that are particular cases of a generic model considered here. We numerically confirm that the simulation outcomes of the optimized algorithms are statistically indistinguishable from the original GA and can be several orders of magnitude more efficient."
 }
 ```
 
