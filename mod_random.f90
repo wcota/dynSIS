@@ -33,6 +33,11 @@
 ! This code is available at <https://github.com/wcota/dynSIS>
 ! For pure Python, see <https://github.com/wcota/dynSIS-py>
 ! For NetworkX library, see <https://github.com/wcota/dynSIS-networkx> (NetworkX implementation)
+! 
+! IMPORTANT:
+! THIS CODE WAS MODIFIED FROM http://web.mst.edu/~vojtat/class_5403/kiss05/rkiss05.f90
+! ! FORTRAN implementation by Thomas Vojta, vojta@mst.edu
+! ! built on a module found at www.fortran.com
 
 ! Solution to ifort and gfortran
 !DEC$ IF(.FALSE.)
