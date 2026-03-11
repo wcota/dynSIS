@@ -5,7 +5,21 @@ This code is part of the article "[Optimized Gillespie algorithms for the simula
 [![license](https://img.shields.io/badge/licence-GPLv3-brightgreen.svg)](http://choosealicense.com/licenses/gpl-3.0/)
 [![language](https://img.shields.io/badge/built%20with-Fortran-blue.svg)](https://gcc.gnu.org/fortran/)
 
-### Fortran implementation
+> [!NOTE]
+> ### 🐍 Python Package & Interactive Notebook
+>
+> A Python package is now available for installation via `pip`:
+>
+> ```bash
+> pip install dynSIS
+> ```
+>
+> You can also test the implementation directly in your browser using this interactive notebook:
+> 👉 **[Run in Google Colab](https://colab.research.google.com/drive/1OciKSkm9Q6YqEMEUnC-HkhWaVSjYjXW5?usp=sharing)**
+>
+> *The updated core source code will be released in this repository in the future.*
+
+**This is the Fortran implementation - for performance**
 
 ## Versions
 
